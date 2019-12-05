@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ArtistRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\LabelRepository")
  */
-class Artist
+class Label
 {
     /**
      * @ORM\Id()
@@ -24,12 +24,7 @@ class Artist
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $description;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Record", mappedBy="artist", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Record", mappedBy="label")
      */
     private $records;
 
@@ -55,18 +50,6 @@ class Artist
         return $this;
     }
 
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Record[]
      */
@@ -79,7 +62,7 @@ class Artist
     {
         if (!$this->records->contains($record)) {
             $this->records[] = $record;
-            $record->setArtist($this);
+            $record->setLabel($this);
         }
 
         return $this;
@@ -90,8 +73,8 @@ class Artist
         if ($this->records->contains($record)) {
             $this->records->removeElement($record);
             // set the owning side to null (unless already changed)
-            if ($record->getArtist() === $this) {
-                $record->setArtist(null);
+            if ($record->getLabel() === $this) {
+                $record->setLabel(null);
             }
         }
 

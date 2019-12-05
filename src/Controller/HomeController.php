@@ -47,6 +47,9 @@ class HomeController extends AbstractController
         //Execution des requêtes sql
         $em->flush();
 
+
+
+
         return $this->render('index.html.twig');
 
     }
