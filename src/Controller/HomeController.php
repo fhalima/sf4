@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Artist;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -13,6 +14,7 @@ class HomeController extends AbstractController
 {
     /**
      * @Route("/", name="home")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function index(EntityManagerInterface $em)
     {

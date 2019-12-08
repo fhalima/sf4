@@ -35,11 +35,27 @@ défini dans le template parent#}
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="buttons">
-                        <a class="button is-primary is-small" href="#">
-                            <strong>Inscription</strong>
+                        <a class="button is-primary is-small"
+                        {% if app.user %}
+                              href=" {{ path('app_logout') }}">
+                        {%else %}
+                            href="#">
+                        {% endif%}
+
+                            <strong>
+                            {% if app.user %}
+                                Logout
+                                {%else %}
+                                      Inscription
+                                {% endif%}
+                            </strong>
                         </a>
                         <a class="button is-light is-small" href="#">
-                            Connexion
+                            {% if app.user %}
+                                {{ app.user.pseudo }}
+                            {%else %}
+                                Connexion
+                            {% endif%}
                         </a>
                     </div>
                 </div>

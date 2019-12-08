@@ -1,14 +1,15 @@
 {% extends "_template.html.twig" %}
+
 {% block title %}
     Accueil
 {% endblock %}
+
 {% block content %}
     <div class="section">
-    <h2 class="title">Accueil</h2>
-        {#{{ dump(app) }}#}
+        <h2 class="title">Accueil</h2>
+
+        {% if is_granted("ROLE_ADMIN") %}
+            Vous êtes administrateur !
+        {% endif %}
     </div>
-
-
-
 {% endblock %}
-
