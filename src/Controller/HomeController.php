@@ -14,7 +14,7 @@ class HomeController extends AbstractController
 {
     /**
      * @Route("/", name="home")
-     * @IsGranted("ROLE_ADMIN")
+     * @ Is Granted("ROLE_ADMIN")
      */
     public function index(EntityManagerInterface $em)
     {

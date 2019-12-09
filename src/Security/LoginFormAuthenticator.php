@@ -52,14 +52,14 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     public function getCredentials(Request $request)
     {
         $credentials = [
-            'email' => $request->request->get('email'),
+            'username' => $request->request->get('username'),
          //   'pseudo' => $request->request->get('pseudo'),
             'password' => $request->request->get('password'),
             'csrf_token' => $request->request->get('_csrf_token'),
         ];
         $request->getSession()->set(
             Security::LAST_USERNAME,
-            $credentials['email']
+            $credentials['username']
         );
 
         return $credentials;
@@ -74,17 +74,21 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         if (!$this->csrfTokenManager->isTokenValid($token)) {
             throw new InvalidCsrfTokenException();
         }
+        //récupération de userRepository
+         $userRepository =$this->entityManager->getRepository(User::class);
 
-       // $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email']]);
-       $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email']]);
-       if(!$user)
+        //récupérer par email ou par pseudo
+        $user = $userRepository->findOneBy(['email' => $credentials['username']])
+            ?? $userRepository->findOneBy(['pseudo' => $credentials['username']]);
+
+        /*  if(!$user)
         {
-            $user = $this->entityManager->getRepository(User::class)->findOneBy(['pseudo' => $credentials['email']]);
-        }
+            $user = $this->entityManager->getRepository(User::class)->findOneBy(['pseudo' => $credentials['username']]);
+        }*/
 
         if (!$user) {
             // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Adresse email ou pseudo inconnu !');
+            throw new CustomUserMessageAuthenticationException(sprintf('Aucun utilisateur trouvé pour %s', $credentials['username']));
         }
 
         return $user;

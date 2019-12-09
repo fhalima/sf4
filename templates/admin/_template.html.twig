@@ -1,7 +1,47 @@
-<div class="section">
-    <h2 class="title">dashBoard</h2>
-    <hr>
-    <h3 class="subtitle">
-      dashBoard
-    </h3>
-</div>
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    <nav class="navbar has-background-grey-darker is-dark">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="{{ path('admin_dashboard') }}">
+                <p class="subtitle is-4 has-text-primary">
+                    <i class="fab fa-korvue"></i>
+                    <b>Back Office</b>
+                </p>
+            </a>
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="#">
+                    TOTO
+                </a>
+
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+
+                            <a href="#" class="button is-primary is-small">
+                                <i class="fas fa-replay"></i>
+                                {{ app.user.username }}
+                            </a>
+                            <a href="{{ path('app_logout') }}" class="button is-light is-small">
+                                Déconnexion
+                            </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+    {% block content %}
+
+    {% endblock %}
+
+{% endblock %}

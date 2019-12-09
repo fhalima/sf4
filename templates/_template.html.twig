@@ -35,28 +35,29 @@ défini dans le template parent#}
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="buttons">
-                        <a class="button is-primary is-small"
-                        {% if app.user %}
-                              href=" {{ path('app_logout') }}">
-                        {%else %}
-                            href="#">
-                        {% endif%}
-
-                            <strong>
-                            {% if app.user %}
-                                Logout
-                                {%else %}
-                                      Inscription
-                                {% endif%}
-                            </strong>
-                        </a>
-                        <a class="button is-light is-small" href="#">
-                            {% if app.user %}
-                                {{ app.user.pseudo }}
-                            {%else %}
+                        {% if is_granted('ROLE_USER') %}
+                            <a href="#" class="button is-primary is-small">
+                                <i class="fas fa-user-circle"></i>
+                                {{ app.user.username }}
+                            </a>
+                            <a href="{{ path('app_logout') }}" class="button is-light is-small">
+                                Déconnexion
+                            </a>
+                        {% else %}
+                            <a class="button is-primary is-small" href="#">
+                                <strong>Inscription</strong>
+                            </a>
+                            <a class="button is-light is-small" href="{{ path('app_login') }}">
                                 Connexion
-                            {% endif%}
-                        </a>
+                            </a>
+                        {% endif %}
+
+                        {% if(is_granted('ROLE_EDITOR'))%}
+                            <a href="{{ path('admin_dashboard') }}" class="button is-light is-small">
+                                <i class="fas fa-shield-alt"></i>
+                                Back Office
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
                 <a class="navbar-item">
