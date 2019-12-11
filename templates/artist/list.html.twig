@@ -7,10 +7,25 @@
 
 {% block content %}
     <div class="section">
-        <h2 class="title">Artistes: {{ artist_list|length }}</h2>
+        <h2 class="title">{{ title }} : {{ artist_list|length }}</h2>
+
+        <section class="section has-background-white-ter">
+            <h3>
+
+              {{ form_start(search_form) }}
+                {{ form_row(search_form.name, {label: 'Nom de l\'artiste'}) }}
+                <button class="button is-primary is-fullwidth" type="submit">
+                    Rechercher
+                </button>
+              {{ form_end(search_form) }}
+
+
+            </h3>
+        </section>
 
         <div class="columns is-multiline">
             {% for artist in artist_list %}
+               {# {{ if artist_list}}
                 {# @var artist \App\Entity\Artist #}
                 <div class="column is-one-quarter">
                     <div class="box">
@@ -37,7 +52,20 @@
                         </article>
                     </div>
                 </div>
-            {% endfor %}
+
+                {% else %}
+            <div class="column is-full">
+                <section class="hero is-warning">
+                    <div class="container">
+                        <h3 class="title" has-text-centered>
+                            <i class="far fa-frown"></i>&nbsp;
+                            Aucun résultat pour votre recherche !
+                        </h3>
+                    </div>
+                </section>
+            </div>
+              {#  {% endif %}#}
+                    {% endfor %}
         </div>
     </div>
 {% endblock %}

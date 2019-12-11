@@ -83,4 +83,24 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    /*public function UpdateUserByUsername($usernameOrEmail)
+    {
+        /*  return $this->createQueryBuilder(
+              'SELECT u
+                  FROM App\Entity\User u
+                  WHERE u.pseudo = :query
+                  OR u.email = :query'
+          )
+              ->setParameter('query', $usernameOrEmail)
+              ->getQuery()
+              ->getOneOrNullResult();
+  */
+     /*   return $this->createQueryBuilder('u')
+            ->where('u.pseudo = :query OR u.email = :query')
+            ->setParameter('query', $usernameOrEmail)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+}*/
 }

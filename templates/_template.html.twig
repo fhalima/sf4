@@ -36,7 +36,7 @@ défini dans le template parent#}
                 <div class="navbar-item">
                     <div class="buttons">
                         {% if is_granted('ROLE_USER') %}
-                            <a href="#" class="button is-primary is-small">
+                            <a href="{{path('user_profile')}}" class="button is-primary is-small">
                                 <i class="fas fa-user-circle"></i>
                                 {{ app.user.username }}
                             </a>
