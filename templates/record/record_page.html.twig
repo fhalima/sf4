@@ -8,6 +8,7 @@
     <div class="section">
         <h2 class="title">
             Album: {{ record.title }}
+            <span class="tag is-primary">{{ record.averageNote|number_format(2) }}/10</span>
         </h2>
         <small>Sorti le {{ record.releaseAt|date('d/m/Y') }}</small>
         <p>{{ record.description }}</p>
@@ -27,6 +28,51 @@
         {% else %}
             <p>Autoproduction</p>
         {% endif %}
+        <hr>
+        <h3 class="subtitle">
+            Notes: {{ record.notes|length }}
+        </h3>
+
+        {#afficher le formulaire seulement si note_form n'est pas null #}
+        {% include 'includes/flash_message.html.twig' %}
+
+        {% if note_form is not null %}
+            <div class="section">
+                {{ form_start(note_form) }}
+                {{ form_row(note_form.value, {
+                    label: 'Votre note'
+                }) }}
+
+                {{ form_row(note_form.comment, {
+                    label: 'Commentaire (facultatif)'
+                }) }}
+
+                <button class="button is-success" type="submit">
+                    Noter
+                </button>
+                {{ form_end(note_form) }}
+            </div>
+        {% endif %}
+
+        {% for note in record.notes %}
+            {# @var note \App\Entity\Note#}
+            <br>
+            <div class="card">
+                <div class="card-content">
+                    <strong>
+                        Note : <span class="has-text-primary">{{ note.value }}/10</span>
+                    </strong>
+                    <br>
+                    {{ note.comment }}
+
+                    <hr>
+                    <small>
+                        Par <b><{{ note.user.pseudo }}</b><br>
+                        Le <b>{{ note.createdAt|date('d/m/Y') }}</b>
+                    </small>
+                </div>
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}
 

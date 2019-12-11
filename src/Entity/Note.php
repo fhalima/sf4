@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\NoteRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Note
 {
@@ -42,6 +43,25 @@ class Note
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
+
+    /**
+     * On ajoute @PrePersist() pour que la méthode
+     * a laquelle est ajoutée l'annotation soit appelée
+     * avant le 1er enregistrement de l'entité (= requête INSERT)
+     *
+     * dans notre méthode prePersist(), on va vérifier si notre propriété $createdAt a une valeur. Si elle en a une, on ne fait rien (ex: dans nos fixtures), sinon on mettra une valeur par défaut.
+     */
+     /**
+     * @ORM\PrePersist()
+      *
+     */
+    public function prePersist()
+    {
+        //Définir la date de création par défaut
+        if ($this->createdAt === null) {
+            $this->createdAt = new \DateTime();
+        }
+    }
 
     public function getId(): ?int
     {

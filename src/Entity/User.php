@@ -54,6 +54,13 @@ class User implements UserInterface
         $this->notes = new ArrayCollection();
     }
 
+ /*
+  * Appelée lorsque l'objet est utilisé comme une chaine
+  */
+public function __toString()
+{
+  return $this->getUsername();
+}
     public function getId(): ?int
     {
         return $this->id;
