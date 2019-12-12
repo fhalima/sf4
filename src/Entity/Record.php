@@ -172,4 +172,5 @@ class Record
 
         return $average;
     }
+
 }

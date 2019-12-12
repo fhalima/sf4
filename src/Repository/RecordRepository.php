@@ -51,13 +51,29 @@ class RecordRepository extends ServiceEntityRepository
     /**
      * recuperer les sorties de moin d'un mois
      */
-    public  function getLastMonthReleases(){
-             return $this->createQueryBuilder('r')
-                ->where('r.releaseAt > :last_month')
-                ->setParameter('last_month', new \DateTime('-1 month'))
-                ->orderBy('r.releaseAt','DESC')
-                ->getQuery()
-                ->getResult();
-        }
+    public function getLastMonthReleases()
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.releaseAt > :last_month')
+            ->setParameter('last_month', new \DateTime('-1 month'))
+            ->orderBy('r.releaseAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+
+    public function getBestRatedOfYear()
+    {
+        return $this->createQueryBuilder('r')
+            ->innerJoin('r.notes', 'n')
+            ->where('r.releaseAt > :last_year')
+            ->groupBy('r.id')
+            ->setParameter('last_year', new \DateTime('-1 year'))
+            ->orderBy('AVG(n.value)', 'DESC')
+            ->setMaxResults(100)
+            ->getQuery()
+            ->getResult();
+
+    }
 
 }
