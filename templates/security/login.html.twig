@@ -20,7 +20,7 @@
             {% if error %}
                 <div class="notification is-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
-
+            {% include 'includes/flash_message.html.twig'%}
             {# formulaire de connexion #}
             <form method="post">
                 <div class="field">
@@ -43,6 +43,11 @@
                 <button class="button is-primary is-fullwidth" type="submit">
                     Connexion
                 </button>
+                <div class="field">
+                    <a  href="update_password"> Mot de passe oublié </a><br>
+                    <a href="confirm_email">Renvoyer un email de confirmation </a>
+                </div>
+
             </form>
         </div>
     </div>

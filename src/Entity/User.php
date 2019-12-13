@@ -8,10 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\DBAL\Schema\Constraint;
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity("email", message="Cette adresse est déjà utilisée ")
  * @UniqueEntity("pseudo", message="Ce pseudo est n'est pas disponible")
+ * @ORM\HasLifecycleCallbacks()
  *
  */
 class User implements UserInterface
@@ -49,18 +51,41 @@ class User implements UserInterface
      */
     private $notes;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isConfirmed;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $securityToken;
+
     public function __construct()
     {
         $this->notes = new ArrayCollection();
     }
 
- /*
-  * Appelée lorsque l'objet est utilisé comme une chaine
-  */
-public function __toString()
-{
-  return $this->getUsername();
-}
+    /*
+     * Appelée lorsque l'objet est utilisé comme une chaine
+     */
+    public function __toString()
+    {
+        return $this->getUsername();
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function prePersist(){
+
+        //définir un jeton s'il n'y en a pas
+        if($this->securityToken === null){
+            $this->renewToken();
+        }
+
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -84,8 +109,8 @@ public function __toString()
      * @see UserInterface
      */
     public function getUsername(): string
-    {
-        return (string) $this->email;
+    {//fff
+        return (string)$this->email;
     }
 
     /**
@@ -112,7 +137,7 @@ public function __toString()
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self
@@ -180,5 +205,41 @@ public function __toString()
         }
 
         return $this;
+    }
+
+    public function getIsConfirmed(): ?bool
+    {
+        return $this->isConfirmed;
+    }
+
+    public function setIsConfirmed(bool $isConfirmed): self
+    {
+        $this->isConfirmed = $isConfirmed;
+
+        return $this;
+    }
+
+    public function getSecurityToken(): ?string
+    {
+        return $this->securityToken;
+    }
+
+    public function setSecurityToken(string $securityToken): self
+    {
+        $this->securityToken = $securityToken;
+
+        return $this;
+    }
+
+    /**
+     * Renouveler le jeton de sécurité
+     */
+    public function renewToken(): self
+    {
+        //Création d'un jeton
+        $token = bin2hex(random_bytes(16));
+
+        return $this->setSecurityToken($token);
+
     }
 }

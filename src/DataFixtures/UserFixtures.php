@@ -26,6 +26,7 @@ class UserFixtures extends BaseFixture
                 ->setEmail(sprintf('admin%d@kritik.fr', $num))
                 ->setPseudo(sprintf('admin%d', $num))
                 ->setRoles(['ROLE_ADMIN'])
+                ->setIsConfirmed(true)
                 ->setPassword($this->encoder->encodePassword($admin, 'admin' . $num))
             ;
 
@@ -37,6 +38,7 @@ class UserFixtures extends BaseFixture
             $user
                 ->setEmail(sprintf('user%d@mail.org', $num))
                 ->setPseudo(sprintf('user%d', $num))
+                ->setIsConfirmed(true)
                 ->setPassword($this->encoder->encodePassword($user, 'user' . $num))
             ;
 

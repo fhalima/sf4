@@ -1,0 +1,31 @@
+{% extends "_template.html.twig" %}
+{% block title %}
+    <h3> Inscription </h3>
+{% endblock %}
+{% block content %}
+    <section class="section has-background-white-ter">
+        <h3>
+            {% include 'includes/flash_message.html.twig'%}
+
+            {{ form_start(register_form) }}
+
+            {{ form_row(register_form.pseudo, {label: 'pseudo'}) }}
+            {{ form_row(register_form.email, {label: 'email'}) }}
+            {{ form_row(register_form.plainPassword) }}
+{#            {{ form_row(register_form.password.first) }}#}
+{#            {{ form_row(register_form.passsword.second) }}#}
+
+            <button class="button is-primary is-fullwidth" type="submit">
+                Enregistrer
+            </button>
+{#            <a class="button is-primary is-fullwidth" type="text" href="{{ path('home')}}">#}
+{#                annuler#}
+{#            </a>#}
+
+            {{ form_end(register_form) }}
+
+
+        </h3>
+    </section>
+
+{% endblock %}

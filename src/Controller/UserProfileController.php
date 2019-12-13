@@ -30,8 +30,8 @@ class UserProfileController extends AbstractController
         //vérification de validité
         if ($profileForm->isSubmitted() && $profileForm->isValid()) {
             $user = $profileForm->getData();
-
             $entityManager->persist($user);
+
             $entityManager->flush()
             ->addFlash(
                 'success',

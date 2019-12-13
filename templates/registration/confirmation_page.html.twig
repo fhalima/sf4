@@ -1,0 +1,14 @@
+{% extends "_template.html.twig" %}
+{% block title %}
+    <h3> Inscription </h3>
+{% endblock %}
+{% block content %}
+    <section class="section has-background-white-ter">
+        <h3>
+            {% include 'includes/flash_message.html.twig'%}
+            <a href="{{ path('app_login') }}">Connexion</a><br>
+            <a href="{{ path('home') }}">Revenir a la Page d'accueil</a>
+        </h3>
+    </section>
+
+{% endblock %}

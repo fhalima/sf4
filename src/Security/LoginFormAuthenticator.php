@@ -53,7 +53,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     {
         $credentials = [
             'username' => $request->request->get('username'),
-         //   'pseudo' => $request->request->get('pseudo'),
+            //   'pseudo' => $request->request->get('pseudo'),
             'password' => $request->request->get('password'),
             'csrf_token' => $request->request->get('_csrf_token'),
         ];
@@ -75,7 +75,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
             throw new InvalidCsrfTokenException();
         }
         //récupération de userRepository
-         $userRepository =$this->entityManager->getRepository(User::class);
+        $userRepository = $this->entityManager->getRepository(User::class);
 
         //récupérer par email ou par pseudo
         $user = $userRepository->findOneBy(['email' => $credentials['username']])
@@ -105,9 +105,13 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         // Mauvais mot de passe
         if (!$validation) {
             throw new CustomUserMessageAuthenticationException('Mot de passe incorrect !');
-        }
+        } else
+            if (!$user->getIsConfirmed()) {
+//            dd($user);
+                throw new CustomUserMessageAuthenticationException('Vous devez confirmer votre adresse Email !');
+            }
 
-        return $validation;
+        return ($validation && $user->getIsConfirmed());
     }
 
     /**
